@@ -1,3 +1,5 @@
+//This is where the app starts running
+
 import inquirer from 'inquirer';
 import Db from './db/index.js';
 
