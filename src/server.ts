@@ -106,10 +106,12 @@ function addEmployee() {
   inquirer
     .prompt([
       {
+        type: 'input',
         name: 'first_name',
-        message: '"What is the emploee\'s first name?',
+        message: 'What is the employee\'s first name?',
       },
       {
+        type: 'input',
         name: 'last_name',
         message: '"What is the emploee\'s last name?',
       },
@@ -134,7 +136,7 @@ function addEmployee() {
             {
               type: 'list',
               name: 'roleId',
-              message: 'What is the emploee\'s role?',
+              message: 'What is the employee\'s role?',
               choices: roleChoices,
             }
           ])
@@ -144,7 +146,7 @@ function addEmployee() {
             db.findAllEmployees().then((res) => {
               const employees = res?.rows;
               const managerChoices = employees?.map((employee) => {
-                const id = employees.id;
+                const id = employee.id;
                 const firstName = employee.first_name;
                 const lastName = employee.last_name;
                 return {
@@ -159,7 +161,7 @@ function addEmployee() {
                   {
                     type: 'list',
                     name: 'managerId',
-                    message: 'who is the employee\'s manager?',
+                    message: 'Who is the employee\'s manager?',
                     choices: managerChoices,
                   }
                 ])
@@ -185,6 +187,10 @@ function addEmployee() {
 }
 
 function removeEmployee() {
+  db.findAllEmployees().then((res) => {
+    inquirer
+    .prompt 
+      };
   //find all employess
   //create view to sleect employees
   //create prompt to choose which employee
@@ -193,4 +199,24 @@ function removeEmployee() {
 
 function viewRoles() {
   
+}
+
+function addRole() {
+
+}
+
+function removeRole() {
+
+}
+
+function viewDepartments() {
+  console.table(employees);
+}
+
+function addDepartment() {
+
+}
+
+function removeDepartment(){
+
 }
