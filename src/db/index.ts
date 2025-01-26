@@ -3,9 +3,9 @@
 import { pool } from './connection.js';
 
 export default class Db {
-    constructor () {}
+    constructor() { }
 
-    async query(sql: string, args:any[] = []) {
+    async query(sql: string, args: any[] = []) {
         const client = await pool.connect();
         try {
             const result = await client.query(sql, args);
@@ -23,14 +23,20 @@ export default class Db {
     }
 
     addNewEmployee(employee: any) {
-const {first_name, last_name, role_id, manager_id} = employee;
-return this.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)',
-    [first_name, last_name, role_id, manager_id]
-);
+        const { first_name, last_name, role_id, manager_id } = employee;
+        return this.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)',
+            [first_name, last_name, role_id, manager_id]
+        );
     }
 
     findAllRoles() {
         return this.query('SELECT role.id, role.title, department.name AS department, role.salary FROM role LEFT JOIN department on role.department_id = department.id;'
         );
     }
+
+    findAllDepartments() {
+        return this.query('SELECT id, name FROM department;'
+        );
+    }
 }
+
