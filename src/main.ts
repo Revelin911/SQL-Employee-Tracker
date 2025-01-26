@@ -196,10 +196,10 @@ function addEmployee() {
 //     inquirer
 //       .prompt
 //   };
-  //find all employess
-  //create view to sleect employees
-  //create prompt to choose which employee
-  //run  the removeEmployee method
+//find all employess
+//create view to sleect employees
+//create prompt to choose which employee
+//run  the removeEmployee method
 // }
 
 function viewRoles() {
@@ -214,99 +214,51 @@ function viewRoles() {
 }
 
 function addRole() {
-  // get all departments
-  
-  const choicesArray : any = [// loop through them and create choices
-    ];
-  inquirer
-  .prompt([
-    {
-      type: 'input',
-      name: 'title',
-      message: 'What is the employee\'s title?',
-    },
-    {
-      type: 'input',
-      name: 'salary',
-      message: '"What is the employee\'s salary?',
-    },
-    {
-      type: 'list',
-      name: 'department',
-      message: '"Which department is the employee in?',
-      choices: choicesArray,
-    },
-  ])
-  .then((res) => {
-    const title = res.title;
-    const salary = res.salary;
-    const department = res.department;
 
-    db.findAllRoles().then((response) => {
-      const roles = response?.rows;
-      const roleChoices = roles?.map((role) => {
-        const id = role.id;
-        const title = role.title;
+  db.findAllDepartments().then((response) => {
+    const departments = response?.rows;
+    const departmentChoices = departments?.map((department) => {
 
-        return {
-          name: title,
-          value: id,
-        }
-      });
-      inquirer
-        .prompt([
-          {
-            type: 'list',
-            name: 'roleId',
-            message: 'What is the employee\'s role?',
-            choices: roleChoices,
-          }
-        ])
-        .then((res) => {
-          const roleId = res.roleId;
+      return {
+        name: department.name,
+        value: department.id,
+      }
+    });
 
-          db.findAllEmployees().then((res) => {
-            const employees = res?.rows;
-            const managerChoices = employees?.map((employee) => {
-              const id = employee.id;
-              const firstName = employee.first_name;
-              const lastName = employee.last_name;
-              return {
-                name: `${firstName} ${lastName}`,
-                value: id,
-              };
-            });
-            managerChoices?.unshift({ name: 'None', value: null });
-
-            inquirer
-              .prompt([
-                {
-                  type: 'list',
-                  name: 'managerId',
-                  message: 'Who is the employee\'s manager?',
-                  choices: managerChoices,
-                }
-              ])
-              .then((res) => {
-                const employee = {
-                  first_name: firstName,
-                  last_name: lastName,
-                  manager_id: res.managerId,
-                  role_Id: roleId,
-                };
-                db.addNewEmployee(employee);
-              })
-              .then(() => {
-                console.log(`Added ${firstName} ${lastName} to the database`);
-              })
-              .then(() => {
-                initialPrompts();
-              });
-          })
-        })
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'title',
+          message: 'What is the name of the role?',
+        },
+        {
+          type: 'input',
+          name: 'salary',
+          message: 'What is the salary of the role?',
+        },
+        {
+          type: 'list',
+          name: 'department',
+          message: 'Which department does the role belong to?',
+          choices: departmentChoices,
+        },
+      ]);
     })
-  })
-}
+    .then((res) => {
+        const title = res.title;
+        const salary = res.salary;
+        const department_id = res.department;
+
+        db.addNewRole(roles);
+      })
+      .then(() => {
+        console.log(`Added ${roles.title} to the database`);
+      })
+      .then(() => {
+        initialPrompts();
+      });
+  }
 
 function removeRole() {
 
