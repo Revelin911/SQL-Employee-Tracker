@@ -224,6 +224,12 @@ function addRole() {
         value: department.id,
       }
     });
+    .then((res) => {
+      const role = {
+      title = title,
+       salary = salary,
+       department_id = departmentId,
+      };
 
     inquirer
       .prompt([
@@ -245,10 +251,13 @@ function addRole() {
         },
       ]);
     })
+
     .then((res) => {
-        const title = res.title;
-        const salary = res.salary;
-        const department_id = res.department;
+        const role = {
+        title : title,
+         salary : salary,
+         department_id : departmentId,
+        };
 
         db.addNewRole(roles);
       })
@@ -276,8 +285,40 @@ function viewDepartments() {
 }
 
 function addDepartment() {
+  inquirer
+  .prompt([
+    {
+      type: 'input',
+      name: 'department',
+      message: 'What is the name of the department?',
+    },
+  ])
+  .then((res) => {
+    const department = res.department;
 
-}
+    db.findAllDepartments().then((response) => {
+      
+      const departmentChoices = departments?.map((department) => {
+        const departmentId = department.id;
+        const name = department.id;
+
+        return {
+          name: department,
+          value: department.id,
+        }
+      });
+      ;
+
+                db.addNewDepartment(department);
+              })
+              .then(() => {
+                console.log(`Added ${department} to the database`);
+              })
+              .then(() => {
+                initialPrompts();
+              });
+          })
+        };
 
 function removeDepartment() {
 

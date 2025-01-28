@@ -34,9 +34,23 @@ export default class Db {
         );
     }
 
+    addNewRole(role: any) {
+const { title, salary, department_id } = role;
+return this.query('INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)', [title, salary, department_id]
+);
+    }
+
     findAllDepartments() {
         return this.query('SELECT id, name FROM department;'
         );
     }
+
+    addNewDepartment(department: any) {
+const { name } = department;
+return this.query('INSERT INTO department (name) VALUES ($1)', [name]
+);
 }
+}
+
+
 
