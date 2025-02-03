@@ -23,6 +23,9 @@ export default class Db {
         const { first_name, last_name, role_id, manager_id } = employee;
         return this.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)', [first_name, last_name, role_id, manager_id]);
     }
+    deleteEmployee(employeeId) {
+        return this.query('DELETE from employee WHERE id=$1', [employeeId]);
+    }
     findAllRoles() {
         return this.query('SELECT role.id, role.title, department.name AS department, role.salary FROM role LEFT JOIN department on role.department_id = department.id;');
     }
@@ -30,11 +33,17 @@ export default class Db {
         const { title, salary, department_id } = role;
         return this.query('INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)', [title, salary, department_id]);
     }
+    deleteRole() {
+        // const {title, salary, department_id } = deleteQuery;
+        // return this.query('SELECT * FROM role, DELETE FROM role WHERE id = $1;', [roleId]);
+    }
     findAllDepartments() {
         return this.query('SELECT id, name FROM department;');
     }
     addNewDepartment(department) {
         const { name } = department;
         return this.query('INSERT INTO department (name) VALUES ($1)', [name]);
+    }
+    deleteDepartment() {
     }
 }

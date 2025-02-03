@@ -192,15 +192,38 @@ function addEmployee() {
 }
 
 function removeEmployee() {
+
   db.findAllEmployees().then((res) => {
+    const filteredEmployeeData = res?.rows.map((e) => {
+      return {
+        name: e.first_name + e.last_name,
+        value: e.id,
+      }
+    }
+    )
+    console.log(filteredEmployeeData)
     inquirer
-      .prompt
-  };
-find all employess
-create view to sleect employees
-create prompt to choose which employee
-run  the removeEmployee method
-}
+    .prompt ([
+      {
+        type: 'list',
+        name: 'removeEmployee',
+        message: 'Which employee would you like to remove?',
+        choices: filteredEmployeeData,
+      }
+    ])
+    .then((answers) => {
+db.deleteEmployee(answers.removeEmployee).then(() => {
+  console.log('employee deleted')
+  initialPrompts();
+})
+    })
+  });
+};
+// find all employess
+// create view to sleect employees
+// create prompt to choose which employee
+// run  the removeEmployee method
+// }
 
 function viewRoles() {
 
@@ -246,7 +269,7 @@ function addRole() {
       ]);
   })
 
-    .then((res) => {
+    .then((res: any) => {
       const roles = {
         title: res.title,
         salary: res.salary,
@@ -256,7 +279,7 @@ function addRole() {
       db.addNewRole(roles);
     })
     .then(() => {
-      console.log(`Added ${roles} to the database`);
+      // console.log(`Added ${roles} to the database`);
     })
     .then(() => {
       initialPrompts();
@@ -264,30 +287,30 @@ function addRole() {
 }
 
 function removeRole() {
-  db.deleteRole()
-    .then((response) => {
-      const roles = response?.rows;
-      const roleChoices = roles?.map((role) => {
-        const id = role.id;
-        const title = role.title;
+  // db.deleteRole()
+  //   .then((_response: any) => {
+  //     const roles = response?.rows;
+  //     // const roleChoices = roles?.map((role) => {
+  //     //   const id = role.id;
+  //     //   const title = role.title;
 
-        return {
-          name: title,
-          value: id,
-        }
-      })
-);
+  //     //   return {
+  //     //     name: title,
+  //     //     value: id,
+  //     //   }
+  //     })
+};
 
-inquirer
-.prompt([
-  {
-    type:'list',
-    name: 'roleId',
-    message: 'Which role would you like to remove?',
-    choices: roleChoices
-  }
-]);
-}
+// inquirer
+// .prompt([
+//   {
+//     type:'list',
+//     name: 'roleId',
+//     message: 'Which role would you like to remove?',
+//     // choices: roleChoices
+//   }
+// ]);
+// }
 
 function viewDepartments() {
 
@@ -315,7 +338,7 @@ function addDepartment() {
       db.addNewDepartment(departments);
     })
     .then(() => {
-      console.log(`Added ${department} to the database`);
+      // console.log(`Added ${department} to the database`);
     })
     .then(() => {
       initialPrompts();

@@ -19,10 +19,10 @@ function initialPrompts() {
                     name: 'Add Employee',
                     value: 'ADD_EMPLOYEE',
                 },
-                // {
-                //   name: 'Remove Employee',
-                //   value: 'REMOVE_EMPLOYEE',
-                // },
+                {
+                    name: 'Remove Employee',
+                    value: 'REMOVE_EMPLOYEE',
+                },
                 {
                     name: 'View All Roles',
                     value: 'VIEW_ROLES',
@@ -63,9 +63,9 @@ function initialPrompts() {
             case 'ADD_EMPLOYEE':
                 addEmployee();
                 break;
-            // case 'REMOVE_EMPLOYEE':
-            //   removeEmployee();
-            //   break;
+            case 'REMOVE_EMPLOYEE':
+                removeEmployee();
+                break;
             case 'VIEW_ROLES':
                 viewRoles();
                 break;
@@ -179,15 +179,37 @@ function addEmployee() {
         });
     });
 }
-// function removeEmployee() {
-//   db.findAllEmployees().then((res) => {
-//     inquirer
-//       .prompt
-//   };
-//find all employess
-//create view to sleect employees
-//create prompt to choose which employee
-//run  the removeEmployee method
+function removeEmployee() {
+    db.findAllEmployees().then((res) => {
+        const filteredEmployeeData = res?.rows.map((e) => {
+            return {
+                name: e.first_name + e.last_name,
+                value: e.id,
+            };
+        });
+        console.log(filteredEmployeeData);
+        inquirer
+            .prompt([
+            {
+                type: 'list',
+                name: 'removeEmployee',
+                message: 'Which employee would you like to remove?',
+                choices: filteredEmployeeData,
+            }
+        ])
+            .then((answers) => {
+            db.deleteEmployee(answers.removeEmployee).then(() => {
+                console.log('employee deleted');
+                initialPrompts();
+            });
+        });
+    });
+}
+;
+// find all employess
+// create view to sleect employees
+// create prompt to choose which employee
+// run  the removeEmployee method
 // }
 function viewRoles() {
     db.findAllRoles()
@@ -220,27 +242,51 @@ function addRole() {
             },
             {
                 type: 'list',
-                name: 'department',
+                name: 'department_id',
                 message: 'Which department does the role belong to?',
                 choices: departmentChoices,
             },
         ]);
     })
         .then((res) => {
-        const title = res.title;
-        const salary = res.salary;
-        const department_id = res.department;
+        const roles = {
+            title: res.title,
+            salary: res.salary,
+            department_id: res.departmentId,
+        };
         db.addNewRole(roles);
     })
         .then(() => {
-        console.log(`Added ${roles.title} to the database`);
+        // console.log(`Added ${roles} to the database`);
     })
         .then(() => {
         initialPrompts();
     });
 }
 function removeRole() {
+    // db.deleteRole()
+    //   .then((_response: any) => {
+    //     const roles = response?.rows;
+    //     // const roleChoices = roles?.map((role) => {
+    //     //   const id = role.id;
+    //     //   const title = role.title;
+    //     //   return {
+    //     //     name: title,
+    //     //     value: id,
+    //     //   }
+    //     })
 }
+;
+// inquirer
+// .prompt([
+//   {
+//     type:'list',
+//     name: 'roleId',
+//     message: 'Which role would you like to remove?',
+//     // choices: roleChoices
+//   }
+// ]);
+// }
 function viewDepartments() {
     db.findAllDepartments()
         .then((res) => {
@@ -254,30 +300,19 @@ function addDepartment() {
         .prompt([
         {
             type: 'input',
-            name: 'department',
+            name: 'name',
             message: 'What is the name of the department?',
         },
     ])
         .then((res) => {
-        const department = res.department;
-        db.findAllDepartments().then((response) => {
-            const departmentChoices = departments?.map((department) => {
-                const departmentId = department.id;
-                const name = department.id;
-                return {
-                    name: department,
-                    value: id,
-                };
-            });
-            ;
-            db.addNewDepartment(department);
-        })
-            .then(() => {
-            console.log(`Added ${department} to the database`);
-        })
-            .then(() => {
-            initialPrompts();
-        });
+        const departments = res.name;
+        db.addNewDepartment(departments);
+    })
+        .then(() => {
+        // console.log(`Added ${department} to the database`);
+    })
+        .then(() => {
+        initialPrompts();
     });
 }
 ;

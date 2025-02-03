@@ -29,8 +29,8 @@ export default class Db {
         );
     }
 
-    deleteEmployee() {
-
+    deleteEmployee(employeeId: number) {
+return this.query('DELETE from employee WHERE id=$1', [employeeId])
     }
 
     findAllRoles() {
@@ -45,8 +45,8 @@ return this.query('INSERT INTO role (title, salary, department_id) VALUES ($1, $
     }
 
     deleteRole() {
-const {title, salary, department_id } = deleteQuery;
-return this.query('SELECT * FROM role, DELETE FROM role WHERE id = $1;', [roleId]);
+// const {title, salary, department_id } = deleteQuery;
+// return this.query('SELECT * FROM role, DELETE FROM role WHERE id = $1;', [roleId]);
     }
 
     findAllDepartments() {
