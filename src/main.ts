@@ -1,12 +1,16 @@
 //This is where the app starts running
 
+//importing routes
 import inquirer from 'inquirer';
 import Db from './db/index.js';
 
+//creating database info
 const db = new Db();
 
+//method to call prompts
 initialPrompts();
 
+//prompts to ask user
 function initialPrompts() {
   inquirer
     .prompt([
@@ -94,19 +98,28 @@ function initialPrompts() {
     });
 }
 
+//function to exit once user is done
 function quit() {
   process.exit(0)
 }
 
+//view all employees in database
 function viewEmployees() {
+
+  //find employees
   db.findAllEmployees()
     .then((res) => {
       const employees = res?.rows;
+
+      //show the employees available
       console.table(employees);
     })
+
+    //return to prompts for user to answer again
     .then(() => initialPrompts());
 }
 
+//add employee to database
 function addEmployee() {
   inquirer
     .prompt([
@@ -125,6 +138,7 @@ function addEmployee() {
       const firstName = res.first_name;
       const lastName = res.last_name;
 
+      //find all roles and assign employee to role
       db.findAllRoles().then((response) => {
         const roles = response?.rows;
         const roleChoices = roles?.map((role) => {
@@ -148,6 +162,7 @@ function addEmployee() {
           .then((res) => {
             const roleId = res.roleId;
 
+            //find all employees and assign manager accordingly
             db.findAllEmployees().then((res) => {
               const employees = res?.rows;
               const managerChoices = employees?.map((employee) => {
@@ -177,6 +192,8 @@ function addEmployee() {
                     manager_id: res.managerId,
                     role_Id: roleId,
                   };
+
+                  //based on responses, add the new employee to database
                   db.addNewEmployee(employee);
                 })
                 .then(() => {
