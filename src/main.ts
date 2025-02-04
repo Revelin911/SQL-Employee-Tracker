@@ -203,27 +203,22 @@ function removeEmployee() {
     )
     console.log(filteredEmployeeData)
     inquirer
-    .prompt ([
-      {
-        type: 'list',
-        name: 'removeEmployee',
-        message: 'Which employee would you like to remove?',
-        choices: filteredEmployeeData,
-      }
-    ])
-    .then((answers) => {
-db.deleteEmployee(answers.removeEmployee).then(() => {
-  console.log('employee deleted')
-  initialPrompts();
-})
-    })
+      .prompt([
+        {
+          type: 'list',
+          name: 'removeEmployee',
+          message: 'Which employee would you like to remove?',
+          choices: filteredEmployeeData,
+        }
+      ])
+      .then((res) => {
+        db.deleteEmployee(res.removeEmployee).then(() => {
+          console.log('Employee deleted')
+          initialPrompts();
+        })
+      })
   });
 };
-// find all employess
-// create view to sleect employees
-// create prompt to choose which employee
-// run  the removeEmployee method
-// }
 
 function viewRoles() {
 
@@ -278,8 +273,8 @@ function addRole() {
 
       db.addNewRole(roles);
     })
-    .then(() => {
-      // console.log(`Added ${roles} to the database`);
+    .then((roles) => {
+      console.log(`Added ${roles} to the database`);
     })
     .then(() => {
       initialPrompts();
@@ -287,30 +282,32 @@ function addRole() {
 }
 
 function removeRole() {
-  // db.deleteRole()
-  //   .then((_response: any) => {
-  //     const roles = response?.rows;
-  //     // const roleChoices = roles?.map((role) => {
-  //     //   const id = role.id;
-  //     //   const title = role.title;
-
-  //     //   return {
-  //     //     name: title,
-  //     //     value: id,
-  //     //   }
-  //     })
-};
-
-// inquirer
-// .prompt([
-//   {
-//     type:'list',
-//     name: 'roleId',
-//     message: 'Which role would you like to remove?',
-//     // choices: roleChoices
-//   }
-// ]);
-// }
+  db.findAllEmployees().then((res) => {
+    const filteredRoleData = res?.rows.map((r) => {
+      return {
+        name: r.first_name + r.last_name,
+        value: r.id,
+      }
+    }
+    )
+    console.log(filteredRoleData)
+    inquirer
+      .prompt([
+        {
+          type: 'list',
+          name: 'removeRole',
+          message: 'Which role would you like to remove?',
+          choices: filteredRoleData,
+        }
+      ])
+      .then((res) => {
+        db.deleteRole(res.removeRole).then(() => {
+          console.log('Role deleted')
+          initialPrompts();
+        })
+      })
+  });
+}
 
 function viewDepartments() {
 
@@ -335,10 +332,10 @@ function addDepartment() {
     .then((res) => {
       const departments = res.name;
 
-      db.addNewDepartment(departments);
+      return db.addNewDepartment(departments);
     })
-    .then(() => {
-      // console.log(`Added ${department} to the database`);
+    .then((departments) => {
+      console.log(`Added ${departments} to the database`);
     })
     .then(() => {
       initialPrompts();
@@ -346,5 +343,29 @@ function addDepartment() {
 };
 
 function removeDepartment() {
-
+  db.findAllEmployees().then((res) => {
+    const filteredDepartmentData = res?.rows.map((d) => {
+      return {
+        name: d.first_name + d.last_name,
+        value: d.id,
+      }
+    }
+    )
+    console.log(filteredDepartmentData)
+    inquirer
+      .prompt([
+        {
+          type: 'list',
+          name: 'removeDepartment',
+          message: 'Which department would you like to remove?',
+          choices: filteredDepartmentData,
+        }
+      ])
+      .then((res) => {
+        db.deleteDepartment(res.removeDepartment).then(() => {
+          console.log('Department deleted')
+          initialPrompts();
+        })
+      })
+  });
 }

@@ -33,9 +33,8 @@ export default class Db {
         const { title, salary, department_id } = role;
         return this.query('INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)', [title, salary, department_id]);
     }
-    deleteRole() {
-        // const {title, salary, department_id } = deleteQuery;
-        // return this.query('SELECT * FROM role, DELETE FROM role WHERE id = $1;', [roleId]);
+    deleteRole(roleId) {
+        return this.query('DELETE FROM role WHERE id = $1;', [roleId]);
     }
     findAllDepartments() {
         return this.query('SELECT id, name FROM department;');
@@ -44,6 +43,7 @@ export default class Db {
         const { name } = department;
         return this.query('INSERT INTO department (name) VALUES ($1)', [name]);
     }
-    deleteDepartment() {
+    deleteDepartment(departmentId) {
+        return this.query('DELETE FROM department WHERE id = $1;', [departmentId]);
     }
 }

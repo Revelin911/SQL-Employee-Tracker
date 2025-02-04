@@ -44,9 +44,8 @@ return this.query('INSERT INTO role (title, salary, department_id) VALUES ($1, $
 );
     }
 
-    deleteRole() {
-// const {title, salary, department_id } = deleteQuery;
-// return this.query('SELECT * FROM role, DELETE FROM role WHERE id = $1;', [roleId]);
+    deleteRole(roleId: number) {
+return this.query('DELETE FROM role WHERE id = $1;', [roleId]);
     }
 
     findAllDepartments() {
@@ -61,8 +60,8 @@ return this.query('INSERT INTO department (name) VALUES ($1)', [name]
 }
 
 
-deleteDepartment() {
-
+deleteDepartment(departmentId: any) {
+return this.query('DELETE FROM department WHERE id = $1;', [departmentId]);
 }
 
 }
