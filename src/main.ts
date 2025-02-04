@@ -208,8 +208,10 @@ function addEmployee() {
     })
 }
 
+//function to remove employees 
 function removeEmployee() {
 
+  //find employee by name, last name and id
   db.findAllEmployees().then((res) => {
     const filteredEmployeeData = res?.rows.map((e) => {
       return {
@@ -228,6 +230,8 @@ function removeEmployee() {
           choices: filteredEmployeeData,
         }
       ])
+
+      //await response and remove employee from database 
       .then((res) => {
         db.deleteEmployee(res.removeEmployee).then(() => {
           console.log('Employee deleted')
@@ -237,8 +241,12 @@ function removeEmployee() {
   });
 };
 
+
+//view roles
 function viewRoles() {
 
+
+  //find roles and show in table
   db.findAllRoles()
     .then((res) => {
       const roles = res?.rows;
@@ -248,8 +256,12 @@ function viewRoles() {
 
 }
 
+
+//add roles
 function addRole() {
 
+
+  //find departments and pull by name and i
   db.findAllDepartments().then((response) => {
     const departments = response?.rows;
     const departmentChoices = departments?.map((department) => {
@@ -288,6 +300,7 @@ function addRole() {
         department_id: res.departmentId,
       };
 
+      //adding new role to database
       db.addNewRole(roles);
     })
     .then((roles) => {
@@ -298,7 +311,10 @@ function addRole() {
     });
 }
 
+//remove roles
 function removeRole() {
+
+  //find all employees using first, last name and id
   db.findAllEmployees().then((res) => {
     const filteredRoleData = res?.rows.map((r) => {
       return {
@@ -326,6 +342,7 @@ function removeRole() {
   });
 }
 
+//view departments
 function viewDepartments() {
 
   db.findAllDepartments()
@@ -337,6 +354,7 @@ function viewDepartments() {
 
 }
 
+//add departments
 function addDepartment() {
   inquirer
     .prompt([
@@ -349,6 +367,7 @@ function addDepartment() {
     .then((res) => {
       const departments = res.name;
 
+      //adding department to database
       return db.addNewDepartment(departments);
     })
     .then((departments) => {
@@ -359,6 +378,7 @@ function addDepartment() {
     });
 };
 
+//remove department
 function removeDepartment() {
   db.findAllEmployees().then((res) => {
     const filteredDepartmentData = res?.rows.map((d) => {

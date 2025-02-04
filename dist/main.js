@@ -1,8 +1,12 @@
 //This is where the app starts running
+//importing routes
 import inquirer from 'inquirer';
 import Db from './db/index.js';
+//creating database info
 const db = new Db();
+//method to call prompts
 initialPrompts();
+//prompts to ask user
 function initialPrompts() {
     inquirer
         .prompt([
@@ -89,17 +93,23 @@ function initialPrompts() {
         }
     });
 }
+//function to exit once user is done
 function quit() {
     process.exit(0);
 }
+//view all employees in database
 function viewEmployees() {
+    //find employees
     db.findAllEmployees()
         .then((res) => {
         const employees = res?.rows;
+        //show the employees available
         console.table(employees);
     })
+        //return to prompts for user to answer again
         .then(() => initialPrompts());
 }
+//add employee to database
 function addEmployee() {
     inquirer
         .prompt([
@@ -117,6 +127,7 @@ function addEmployee() {
         .then((res) => {
         const firstName = res.first_name;
         const lastName = res.last_name;
+        //find all roles and assign employee to role
         db.findAllRoles().then((response) => {
             const roles = response?.rows;
             const roleChoices = roles?.map((role) => {
@@ -138,6 +149,7 @@ function addEmployee() {
             ])
                 .then((res) => {
                 const roleId = res.roleId;
+                //find all employees and assign manager accordingly
                 db.findAllEmployees().then((res) => {
                     const employees = res?.rows;
                     const managerChoices = employees?.map((employee) => {
@@ -166,6 +178,7 @@ function addEmployee() {
                             manager_id: res.managerId,
                             role_Id: roleId,
                         };
+                        //based on responses, add the new employee to database
                         db.addNewEmployee(employee);
                     })
                         .then(() => {
@@ -179,7 +192,9 @@ function addEmployee() {
         });
     });
 }
+//function to remove employees 
 function removeEmployee() {
+    //find employee by name, last name and id
     db.findAllEmployees().then((res) => {
         const filteredEmployeeData = res?.rows.map((e) => {
             return {
@@ -197,6 +212,7 @@ function removeEmployee() {
                 choices: filteredEmployeeData,
             }
         ])
+            //await response and remove employee from database 
             .then((res) => {
             db.deleteEmployee(res.removeEmployee).then(() => {
                 console.log('Employee deleted');
@@ -206,7 +222,9 @@ function removeEmployee() {
     });
 }
 ;
+//view roles
 function viewRoles() {
+    //find roles and show in table
     db.findAllRoles()
         .then((res) => {
         const roles = res?.rows;
@@ -214,7 +232,9 @@ function viewRoles() {
     })
         .then(() => initialPrompts());
 }
+//add roles
 function addRole() {
+    //find departments and pull by name and i
     db.findAllDepartments().then((response) => {
         const departments = response?.rows;
         const departmentChoices = departments?.map((department) => {
@@ -249,6 +269,7 @@ function addRole() {
             salary: res.salary,
             department_id: res.departmentId,
         };
+        //adding new role to database
         db.addNewRole(roles);
     })
         .then((roles) => {
@@ -258,7 +279,9 @@ function addRole() {
         initialPrompts();
     });
 }
+//remove roles
 function removeRole() {
+    //find all employees using first, last name and id
     db.findAllEmployees().then((res) => {
         const filteredRoleData = res?.rows.map((r) => {
             return {
@@ -284,6 +307,7 @@ function removeRole() {
         });
     });
 }
+//view departments
 function viewDepartments() {
     db.findAllDepartments()
         .then((res) => {
@@ -292,6 +316,7 @@ function viewDepartments() {
     })
         .then(() => initialPrompts());
 }
+//add departments
 function addDepartment() {
     inquirer
         .prompt([
@@ -303,6 +328,7 @@ function addDepartment() {
     ])
         .then((res) => {
         const departments = res.name;
+        //adding department to database
         return db.addNewDepartment(departments);
     })
         .then((departments) => {
@@ -313,6 +339,7 @@ function addDepartment() {
     });
 }
 ;
+//remove department
 function removeDepartment() {
     db.findAllEmployees().then((res) => {
         const filteredDepartmentData = res?.rows.map((d) => {
