@@ -286,7 +286,7 @@ function addRole() {
         },
         {
           type: 'list',
-          name: 'department_id',
+          name: 'departmentId',
           message: 'Which department does the role belong to?',
           choices: departmentChoices,
         },
@@ -297,7 +297,7 @@ function addRole() {
       const roles = {
         title: res.title,
         salary: res.salary,
-        department_id: res.department_id,
+        department_id: res.departmentId,
       };
 
       //adding new role to database
