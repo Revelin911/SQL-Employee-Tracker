@@ -243,7 +243,7 @@ function addRole() {
                 value: department.id,
             };
         });
-        inquirer
+        return inquirer
             .prompt([
             {
                 type: 'input',

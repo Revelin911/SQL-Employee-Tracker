@@ -272,7 +272,7 @@ function addRole() {
       }
     });
 
-    inquirer
+    return inquirer
       .prompt([
         {
           type: 'input',
@@ -297,7 +297,7 @@ function addRole() {
       const roles = {
         title: res.title,
         salary: res.salary,
-        department_id: res.departmentId,
+        department_id: res.department_id,
       };
 
       //adding new role to database
