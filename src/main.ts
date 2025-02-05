@@ -77,7 +77,7 @@ function initialPrompts() {
         case 'VIEW_ROLES':
           viewRoles();
           break;
-        case 'ADD-ROLE':
+        case 'ADD_ROLE':
           addRole();
           break;
         case 'REMOVE_ROLE':
