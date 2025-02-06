@@ -26,7 +26,7 @@ export default class Db {
 
     //method to add employee
     addNewEmployee(employee: any) {
-        console.log(employee);
+        
         const { first_name, last_name, role_id, manager_id } = employee;
         return this.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)',
             [first_name, last_name, role_id, manager_id]
