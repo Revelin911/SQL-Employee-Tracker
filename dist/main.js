@@ -178,6 +178,7 @@ function addEmployee() {
                             manager_id: res.managerId,
                             role_Id: roleId,
                         };
+                        console.log('189', employee);
                         //based on responses, add the new employee to database
                         db.addNewEmployee(employee);
                     })
@@ -257,7 +258,7 @@ function addRole() {
             },
             {
                 type: 'list',
-                name: 'department_id',
+                name: 'departmentId',
                 message: 'Which department does the role belong to?',
                 choices: departmentChoices,
             },

@@ -186,13 +186,14 @@ function addEmployee() {
                   }
                 ])
                 .then((res) => {
+                  
                   const employee = {
                     first_name: firstName,
                     last_name: lastName,
                     manager_id: res.managerId,
                     role_Id: roleId,
                   };
-
+console.log('189', employee)
                   //based on responses, add the new employee to database
                   db.addNewEmployee(employee);
                 })
