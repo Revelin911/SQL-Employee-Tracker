@@ -49,7 +49,8 @@ export default class Db {
     }
     //method to add department
     addNewDepartment(department) {
-        const { name } = department;
+        const name = department;
+        console.log(name);
         return this.query('INSERT INTO department (name) VALUES ($1)', [name]);
     }
     //method to delete department

@@ -64,7 +64,8 @@ return this.query('DELETE FROM role WHERE id = $1;', [roleId]);
 
     //method to add department
     addNewDepartment(department: any) {
-const { name } = department;
+const name = department;
+console.log(name)
 return this.query('INSERT INTO department (name) VALUES ($1)', [name]
 );
 }

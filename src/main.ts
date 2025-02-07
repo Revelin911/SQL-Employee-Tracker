@@ -367,15 +367,14 @@ function addDepartment() {
     ])
     
     .then((res) => {
-      const departments = {
-       department_name: res.departmentName, 
-      }
-      console.log(departments)
+      const department = res.departmentName
+      
       //adding department to database
-      return db.addNewDepartment(departments);
+      return db.addNewDepartment(department);
     })
-    .then((departments) => {
-      console.log(`Added ${departments} to the database`);
+    .then((department: any) => {
+      console.log(department)
+      console.log(`Added ${department.department} to the database`);
     })
     .then(() => {
       initialPrompts();
