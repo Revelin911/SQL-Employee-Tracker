@@ -50,6 +50,8 @@ SOFTWARE.
 ## Tests
 
 If everything runs correctly you should be able to view the following prompts:
-![Initial terminal prompts](assets/images/Weather.png)
+![Initial terminal prompts](Assets/Prompts.png)
 
-![Video with examples of prompts](assets/images/Forecast.png)
+![Video with examples of prompts](Assets/View.png)
+
+![Video demo of tasks](https://drive.google.com/file/d/1wKvDrKflmj_nI3bDpNfPFSBVNbeha48K/view)
